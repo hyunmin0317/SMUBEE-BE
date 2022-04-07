@@ -10,7 +10,7 @@ def login(id, password):
     options.add_argument("headless")
 
     # driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
-    driver = webdriver.Chrome('/home/sangmyung/chromedriver', options=options)
+    driver = webdriver.Chrome('/home/ubuntu/chromedriver', options=options)
     driver.get(URL)
     driver.find_element(By.ID, 'input-username').send_keys(id)
     driver.find_element(By.ID, 'input-password').send_keys(password)
