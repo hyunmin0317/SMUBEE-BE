@@ -8,7 +8,7 @@ def login(id, password):
     # options = webdriver.ChromeOptions()
     # options.add_argument("headless")
 
-    driver = webdriver.Chrome(ChromeDriverManager().install())
+    driver = webdriver.Chrome('chromedriver.exe')
     driver.get(URL)
     driver.find_element(By.ID, 'input-username').send_keys(id)
     driver.find_element(By.ID, 'input-password').send_keys(password)
