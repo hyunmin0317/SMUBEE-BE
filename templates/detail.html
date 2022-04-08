@@ -3,16 +3,14 @@
 <div class="container my-3">
     <div class="row">
         <div class="col-4">
-            <h4>강좌 전체보기</h4>
+            <h4>{{code}}</h4>
         </div>
     </div><br>
 
     {% for course in courses %}
     <div class="card">
       <div class="card-header">
-          <a href="{% url 'ecampus:detail' course.code  %}">
-            {{course.name}}
-          </a>
+        {{course.name}}
       </div>
       <div class="card-body">
         <blockquote class="blockquote mb-0">
