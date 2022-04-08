@@ -15,8 +15,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+import ecampus.views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('ecampus.urls'))
+    path('', ecampus.views.home, name='home'),
+    path('ecampus/', include('ecampus.urls'))
 ]

@@ -17,8 +17,6 @@ def login(id, password):
     driver.find_element(By.NAME, 'loginbutton').click()
     return driver.page_source
 
-
-
 def course(id, password):
     data = []
     url = login(id, password)
@@ -28,6 +26,7 @@ def course(id, password):
         dic = {'name':course.find("h3").text, 'prof':course.find("p").text, 'code':course.find("a")["href"].split("=")[1]}
         data.append(dic)
     return data
+
 
 def home(request):
     if request.method == 'GET':
