@@ -19,9 +19,9 @@ def course():
     data = []
     url = login("201911019", "1q2w3e4r!!")
     soup = BeautifulSoup(url, 'html.parser')
-    courses = soup.find_all("div", class_="course-title")
+    courses = soup.find_all("div", class_="course_box")
     for course in courses:
-        dic = {'name':course.find("h3").text, 'prof':course.find("p").text}
+        dic = {'name':course.find("h3").text, 'prof':course.find("p").text, 'code':course.find("a")["href"].split("=")[1]}
         data.append(dic)
     return data
 
@@ -32,4 +32,4 @@ if __name__ == '__main__':
         print("로그인 실패")
     else:
         for course in courses:
-            print(course['name'], course['prof'])
+            print(course['name'], course['prof'], course['code'])
