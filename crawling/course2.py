@@ -12,6 +12,11 @@ def login(id, password):
     driver.find_element(By.ID, 'input-password').send_keys(password)
     driver.find_element(By.NAME, 'loginbutton').click()
 
+def logout():
+    url = "https://ecampus.smu.ac.kr/login/logout.php?sesskey=743L2Q8XQd"
+    driver.get(url)
+    driver.find_element_by_xpath('//*[@id="notice"]/div/div[1]/form/div/input[1]').click()
+
 def course():
     url = "https://ecampus.smu.ac.kr"
     driver.get(url)
@@ -40,13 +45,15 @@ def course_data(code):
 
 
 if __name__ == '__main__':
-    options = webdriver.ChromeOptions()
-    options.add_argument("headless")
-    driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
+    # options = webdriver.ChromeOptions()
+    # options.add_argument("headless")
+    # driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
+    driver = webdriver.Chrome(ChromeDriverManager().install())
 
     login("201911019", "1q2w3e4r!!")
     courses = course()
     course_data("68630")
+    logout()
 
     if len(courses)==0:
         print("로그인 실패")
