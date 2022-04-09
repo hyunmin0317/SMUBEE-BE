@@ -34,6 +34,7 @@ def course_data(code):
     courses = body.find_all("td", class_="text-left")
 
     for course in courses:
+        print(course)
         print(type(course))
         print(course.find("td"))
 
