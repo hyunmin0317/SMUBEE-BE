@@ -19,22 +19,22 @@ def logout():
     driver.find_element_by_xpath('//*[@id="notice"]/div/div[1]/form/div/input[1]').click()
 
 
-def course():
+def subject():
     url = "https://ecampus.smu.ac.kr"
     driver.get(url)
     page = driver.page_source
     data = []
 
     soup = BeautifulSoup(page, 'html.parser')
-    courses = soup.find_all("div", class_="course_box")
-    for course in courses:
-        dic = {'name': course.find("h3").text, 'prof': course.find("p").text,
-               'code': course.find("a")["href"].split("=")[1]}
+    subjects = soup.find_all("div", class_="course_box")
+    for subject in subjects:
+        dic = {'name': subject.find("h3").text, 'prof': subject.find("p").text,
+               'code': subject.find("a")["href"].split("=")[1]}
         data.append(dic)
     return data
 
 
-def course_data(code):
+def course(code):
     url = "https://ecampus.smu.ac.kr/report/ubcompletion/user_progress.php?id=" + code
     driver.get(url)
     page = driver.page_source
@@ -57,11 +57,11 @@ if __name__ == '__main__':
     driver = webdriver.Chrome(ChromeDriverManager().install())
 
     login("201911019", "1q2w3e4r!!")
-    courses = course()
+    subjects = subject()
 
-    if len(courses)==0:
+    if len(subjects)==0:
         print("로그인 실패")
     else:
-        for course in courses:
-            print(course['name'], course['prof'], course['code'])
-            print(course_data(course['code']))
+        for subject in subjects:
+            print(subject['name'], subject['prof'], subject['code'])
+            print(course(subject['code']))

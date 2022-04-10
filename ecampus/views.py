@@ -21,19 +21,34 @@ def logout():
     driver.get(url)
     driver.find_element_by_xpath('//*[@id="notice"]/div/div[1]/form/div/input[1]').click()
 
-def course():
+def subject():
     url = "https://ecampus.smu.ac.kr"
     driver.get(url)
     page = driver.page_source
     data = []
 
     soup = BeautifulSoup(page, 'html.parser')
-    courses = soup.find_all("div", class_="course_box")
-    for course in courses:
-        dic = {'name':course.find("h3").text, 'prof':course.find("p").text, 'code':course.find("a")["href"].split("=")[1]}
+    subjects = soup.find_all("div", class_="course_box")
+    for subject in subjects:
+        dic = {'name': subject.find("h3").text, 'prof': subject.find("p").text,
+               'code': subject.find("a")["href"].split("=")[1]}
         data.append(dic)
     return data
 
+def course(code):
+    url = "https://ecampus.smu.ac.kr/report/ubcompletion/user_progress.php?id=" + code
+    driver.get(url)
+    page = driver.page_source
+    data = []
+
+    soup = BeautifulSoup(page, 'html.parser')
+    body = soup.find("table", class_="user_progress")
+
+    if body is not None:
+        courses = body.find_all("td", class_="text-left")
+        for course in courses:
+            data.append(course.text)
+    return data
 
 def home(request):
     if request.method == 'GET':
@@ -42,16 +57,16 @@ def home(request):
         id = request.POST['id']
         password = request.POST['password']
         login(id, password)
-        courses = course()
-        logout()
+        subjects = subject()
+        # logout()
 
-        if len(courses) == 0:
+        if len(subjects) == 0:
             print("로그인 실패")
             return render(request, 'login.html')
         else:
-            context = {'courses': courses}
+            context = {'subjects': subjects}
             return render(request, 'home.html', context)
 
 def detail(request, code):
-    context = {'code':code}
+    context = {'code':code, 'courses':course(code)}
     return render(request, 'detail.html', context)
