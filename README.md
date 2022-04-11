@@ -3,6 +3,18 @@
 ### 졸업 프로젝트 (2022.01.02 ~ )
 
 ---
+## :book: 실행
+
+```
+# 패키지 설치
+pip install django
+pip install bs4
+pip install selenium
+pip install webdriver_manager
+
+# 서버 실행
+python manage.py runserver
+```
 
 ## :computer: 팀원 
 
