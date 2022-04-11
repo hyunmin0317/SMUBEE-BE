@@ -54,7 +54,9 @@ if __name__ == '__main__':
     # options = webdriver.ChromeOptions()
     # options.add_argument("headless")
     # driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
-    driver = webdriver.Chrome(ChromeDriverManager().install())
+
+    # driver = webdriver.Chrome(ChromeDriverManager().install())
+    driver = webdriver.Chrome('chromedriver')
 
     login("201911019", "1q2w3e4r!!")
     subjects = subject()
