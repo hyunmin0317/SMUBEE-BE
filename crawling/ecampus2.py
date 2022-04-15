@@ -40,6 +40,7 @@ def course(session, code):
         courses = body.find_all("td", class_="text-left")
         for course in courses:
             data.append(course.text)
+
     return data
 
 
