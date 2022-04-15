@@ -31,17 +31,17 @@ def subject(session):
 
 def course(session, code):
     data = []
-
     request = session.get('https://ecampus.smu.ac.kr/report/ubcompletion/user_progress.php?id='+code)
     source = request.text
     soup = bs(source, 'html.parser')
-    body = soup.find("table", class_="user_progress")
 
+    body = soup.find("table", class_="user_progress")
     if body is not None:
         courses = body.find_all("td", class_="text-left")
         for course in courses:
             data.append(course.text)
     return data
+
 
 if __name__ == '__main__':
     session = login('201911019', '1q2w3e4r!!')
