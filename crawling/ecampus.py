@@ -1,0 +1,31 @@
+import requests
+from bs4 import BeautifulSoup as bs
+
+def subject(id, password):
+    user_info = {'username': id, 'password': password}
+    data = []
+
+    with requests.Session() as s:
+        request = s.post('https://ecampus.smu.ac.kr/login/index.php', data=user_info)
+        source = request.text
+        soup = bs(source,'html.parser')
+        print(soup)
+
+        # region-main > div > div.progress_courses > div.course_lists > ul > li:nth-child(1) > div > a > div.course-name > div.course-title > h3
+
+        name_list = soup.select("#region-main > div > div.progress_courses > div.course_lists > ul > li > div > a > div.course-name > div.course-title > h3")
+        prof_list = soup.select("#region-main > div > div.progress_courses > div.course_lists > ul > li > div > a > div.course-name > div.course-title > p")
+        code_list = soup.select("#region-main > div > div.progress_courses > div.course_lists > ul > li > div > a")
+
+        request = s.get('https://ecampus.smu.ac.kr/report/ubcompletion/user_progress.php?id=68630')
+        print(request.text)
+
+        for name, prof, code in zip(name_list, prof_list, code_list):
+            dic = {'name': name.text, 'prof': prof.text, 'code': code["href"].split("=")[1]}
+            data.append(dic)
+    return data
+
+
+if __name__ == '__main__':
+    subject_list = subject('201911019', '1q2w3e4r!!')
+    print(subject_list)
