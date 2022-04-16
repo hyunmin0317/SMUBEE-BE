@@ -17,7 +17,7 @@ def login(id, password):
 
 def course():
     data = []
-    url = login("201911019", "1q2w3e4r!!")
+    url = login("201911019", "password")
     soup = BeautifulSoup(url, 'html.parser')
     courses = soup.find_all("div", class_="course_box")
     for course in courses:

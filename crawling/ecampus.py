@@ -21,5 +21,5 @@ def subject(id, password):
 
 
 if __name__ == '__main__':
-    subject_list = subject('201911019', '1q2w3e4r!!')
+    subject_list = subject('201911019', 'password')
     print(subject_list)

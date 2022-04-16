@@ -66,7 +66,7 @@ def course(session, code):
 
 
 if __name__ == '__main__':
-    session = login('201911019', '1q2w3e4r!!')
+    session = login('201911019', 'password')
 
     if session == -1:
         print('로그인 실패')
