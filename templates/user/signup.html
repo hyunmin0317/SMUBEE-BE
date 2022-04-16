@@ -3,7 +3,7 @@
 <div class="container my-3">
     <div class="row my-3">
         <div class="col-4">
-            <h4>계정생성</h4>
+            <h4>회원가입</h4>
         </div>
         <div class="col-8 text-right">
             <span>또는 <a href="{% url 'user:login' %}">로그인 하세요.</a></span>
@@ -33,7 +33,7 @@
                    value="{{ form.email.value|default_if_none:'' }}">
         </div>
         {{ forms.as_p }}
-        <button type="submit" class="btn btn-primary">생성하기</button>
+        <br><button type="submit" class="btn btn-primary">회원가입</button>
     </form>
 </div>
 {% endblock %}
