@@ -66,5 +66,5 @@ def home(request):
             #     print(course(session, subject['code']))
 
 def detail(request, code):
-    context = {'code':code, 'courses':course(code)}
+    context = {'code': code, 'courses': course(code)}
     return render(request, 'detail.html', context)
