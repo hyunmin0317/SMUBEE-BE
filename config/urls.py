@@ -20,5 +20,6 @@ import ecampus.views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', ecampus.views.home, name='home'),
-    path('ecampus/', include('ecampus.urls'))
+    path('ecampus/', include('ecampus.urls')),
+    path('user/', include('user.urls'))
 ]

@@ -1,6 +1,9 @@
 import requests
 from bs4 import BeautifulSoup as bs
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
+
+from user.models import Profile
 
 
 def login(id, password):
@@ -16,16 +19,37 @@ def login(id, password):
 
 def course(session, code):
     data = []
+    names = []
+    ratios = []
+    closes = []
+
     request = session.get('https://ecampus.smu.ac.kr/report/ubcompletion/user_progress.php?id='+code)
     source = request.text
     soup = bs(source, 'html.parser')
 
     body = soup.find("table", class_="user_progress")
-    if body is not None:
-        courses = body.find_all("td", class_="text-left")
-        for course in courses:
-            data.append(course.text)
 
+    if body is None:
+        return data
+
+    courses = body.find_all("td", class_="text-left")
+    for course in courses:
+        names.append(course.text)
+
+    i = 0
+    courses = body.find_all('td', class_='text-center')
+    for course in courses:
+        if course['class'][0] == 'text-center':
+            i += 1
+            if i % 3 == 0:
+                ratios.append(course.text)
+
+    courses = body.find_all('button', class_='track_detail')
+    for course in courses:
+        closes.append(course['title'].split('~')[1][1:-1])
+
+    for name, ratio, close in zip(names, ratios, closes):
+        data.append({'name': name, 'ratio': ratio, 'close': close})
     return data
 
 
@@ -45,26 +69,29 @@ def subject(session):
     return data
 
 
+@login_required(login_url='user:login')
 def home(request):
-    if request.method == 'GET':
-        return render(request, 'login.html')
-    elif request.method == 'POST':
-        id = request.POST['id']
-        password = request.POST['password']
-        session = login(id, password)
+    user = request.user
+    id = user.username
+    password = Profile.objects.get(user=user).password
+    session = login(id, password)
 
-        if session == -1:
-            print('로그인 실패')
-            return render(request, 'login.html')
-        else:
-            subjects = subject(session)
-            context = {'subjects': subjects}
-            return render(request, 'home.html', context)
+    if session == -1:
+        context = {'error': -1}
+    else:
+        subjects = subject(session)
+        context = {'subjects': subjects}
+    return render(request, 'ecampus/home.html', context)
 
-            # for subject in subjects:
-            #     print(subject['name'], subject['prof'], subject['code'])
-            #     print(course(session, subject['code']))
 
 def detail(request, code):
-    context = {'code': code, 'courses': course(code)}
-    return render(request, 'detail.html', context)
+    user = request.user
+    id = user.username
+    password = Profile.objects.get(user=user).password
+    session = login(id, password)
+
+    if session == -1:
+        print('로그인 실패')
+    else:
+        context = {'code': code, 'courses': course(session, code)}
+    return render(request, 'ecampus/detail.html', context)
