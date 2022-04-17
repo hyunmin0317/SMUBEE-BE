@@ -56,6 +56,21 @@ def course(session, code):
     return data
 
 
+def assign(session, code):
+    data = []
+    request = session.get('https://ecampus.smu.ac.kr/mod/assign/index.php?id='+code)
+    source = request.text
+    soup = bs(source, 'html.parser')
+
+    names = soup.find_all('td', class_='cell c1')
+    closes = soup.find_all('td', class_='cell c2')
+    submits = soup.find_all('td', class_='cell c3')
+
+    for name, close, submit in zip(names, closes, submits):
+        data.append({'name': name.text, 'close': close.text, 'submit': submit.text})
+    return data
+
+
 if __name__ == '__main__':
     session = login('201911019', 'password')
 
@@ -66,3 +81,4 @@ if __name__ == '__main__':
         for subject in subjects:
             print(subject['name'], subject['prof'], subject['code'])
             print(course(session, subject['code']))
+            print(assign(session, subject['code']))
