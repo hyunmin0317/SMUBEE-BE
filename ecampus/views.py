@@ -69,6 +69,21 @@ def subject(session):
     return data
 
 
+def assign(session, code):
+    data = []
+    request = session.get('https://ecampus.smu.ac.kr/mod/assign/index.php?id='+code)
+    source = request.text
+    soup = bs(source, 'html.parser')
+
+    names = soup.find_all('td', class_='cell c1')
+    closes = soup.find_all('td', class_='cell c2')
+    submits = soup.find_all('td', class_='cell c3')
+
+    for name, close, submit in zip(names, closes, submits):
+        data.append({'name': name.text, 'close': close.text, 'submit': submit.text})
+    return data
+
+
 @login_required(login_url='user:login')
 def home(request):
     user = request.user
@@ -93,5 +108,6 @@ def detail(request, code):
     if session == -1:
         print('로그인 실패')
     else:
-        context = {'code': code, 'courses': course(session, code)}
+        context = {'code': code, 'courses': course(session, code),
+                   'assigns': assign(session, code)}
     return render(request, 'ecampus/detail.html', context)
