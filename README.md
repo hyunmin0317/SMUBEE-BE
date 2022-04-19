@@ -8,9 +8,8 @@
 ```
 # 패키지 설치
 pip install django
+pip install requests
 pip install bs4
-pip install selenium
-pip install webdriver_manager
 
 # 서버 실행
 python manage.py runserver
