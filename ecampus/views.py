@@ -99,6 +99,7 @@ def home(request):
     return render(request, 'ecampus/home.html', context)
 
 
+@login_required(login_url='user:login')
 def detail(request, code):
     user = request.user
     id = user.username
@@ -110,4 +111,24 @@ def detail(request, code):
     else:
         context = {'code': code, 'courses': course(session, code),
                    'assigns': assign(session, code)}
+    return render(request, 'ecampus/detail.html', context)
+
+
+@login_required(login_url='user:login')
+def all(request):
+    courses = []
+    assigns = []
+    user = request.user
+    id = user.username
+    password = Profile.objects.get(user=user).password
+    session = login(id, password)
+
+    if session == -1:
+        print('로그인 실패')
+    else:
+        subjects = subject(session)
+        for s in subjects:
+            courses += course(session, s['code'])
+            assigns += assign(session, s['code'])
+        context = {'courses': courses, 'assigns': assigns}
     return render(request, 'ecampus/detail.html', context)

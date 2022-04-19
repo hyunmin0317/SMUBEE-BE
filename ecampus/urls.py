@@ -4,5 +4,6 @@ from ecampus import views
 app_name = 'ecampus'
 
 urlpatterns = [
-    path('<str:code>/', views.detail, name='detail')
+    path('all/', views.all, name='all'),
+    path('<str:code>/', views.detail, name='detail'),
 ]
