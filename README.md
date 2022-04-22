@@ -11,6 +11,10 @@ pip install django
 pip install requests
 pip install bs4
 
+# 마이그레이션
+python manage.py makemigrations
+python manage.py migrate
+
 # 서버 실행
 python manage.py runserver
 ```
