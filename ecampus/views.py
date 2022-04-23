@@ -59,6 +59,7 @@ def subject(session):
     source = request.text
     soup = bs(source, 'html.parser')
 
+
     name_list = soup.select('#region-main > div > div.progress_courses > div.course_lists > ul > li > div > a > div.course-name > div.course-title > h3')
     prof_list = soup.select('#region-main > div > div.progress_courses > div.course_lists > ul > li > div > a > div.course-name > div.course-title > p')
     code_list = soup.select('#region-main > div > div.progress_courses > div.course_lists > ul > li > div > a')
@@ -78,10 +79,11 @@ def assign(session, code):
     names = soup.find_all('td', class_='cell c1')
     closes = soup.find_all('td', class_='cell c2')
     submits = soup.find_all('td', class_='cell c3')
+    subject_name = soup.select('#page-header > nav > div > div.coursename > h1 > a')[0].text
 
     for name, close, submit in zip(names, closes, submits):
         data.append({'name': name.text, 'close': close.text, 'submit': submit.text})
-    return data
+    return data, subject_name
 
 
 @login_required(login_url='user:login')
@@ -106,11 +108,13 @@ def detail(request, code):
     password = Profile.objects.get(user=user).password
     session = login(id, password)
 
+    assigns, name = assign(session, code)
+    courses = course(session, code)
+
     if session == -1:
         print('로그인 실패')
     else:
-        context = {'code': code, 'courses': course(session, code),
-                   'assigns': assign(session, code)}
+        context = {'name': name, 'assigns': assigns, 'courses': courses}
     return render(request, 'ecampus/detail.html', context)
 
 
