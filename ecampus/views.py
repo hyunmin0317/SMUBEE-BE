@@ -133,6 +133,7 @@ def all(request):
         subjects = subject(session)
         for s in subjects:
             courses += course(session, s['code'])
-            assigns += assign(session, s['code'])
-        context = {'courses': courses, 'assigns': assigns}
+            ass, name = assign(session, s['code'])
+            assigns += ass
+    context = {'courses': courses, 'assigns': assigns}
     return render(request, 'ecampus/detail.html', context)
