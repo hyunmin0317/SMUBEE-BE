@@ -1,6 +1,7 @@
 from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 
+
 def login():
     # 구글 클라우드 콘솔에서 다운받은 OAuth 2.0 클라이언트 파일경로
     creds_filename = 'credentials.json'
@@ -16,6 +17,7 @@ def login():
     creds = flow.run_local_server(port=8000)
     service = build('calendar', 'v3', credentials=creds)
     return service
+
 
 if __name__ == '__main__':
     login()

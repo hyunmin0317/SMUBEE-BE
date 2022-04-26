@@ -22,6 +22,7 @@ def read():
                                          ).execute().get('items')
     return events_result, service
 
+
 if __name__ == '__main__':
     events_result = read()
     print(events_result)

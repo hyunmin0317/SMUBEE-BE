@@ -1,21 +1,21 @@
 import datetime
 from login import login
 
-def create():
+
+def create(summary, location, description, start, end):
     # 구글 캘린더 API 서비스 객체 생성
     service = login()
-    today = datetime.date.today().isoformat()
 
     event = {
-            'summary': 'itsplay의 OpenAPI 수업', # 일정 제목
-            'location': '서울특별시 성북구 정릉동 정릉로 77', # 일정 장소
-            'description': 'itsplay와 OpenAPI 수업에 대한 설명입니다.', # 일정 설명
+            'summary': summary, # 일정 제목
+            'location': location, # 일정 장소
+            'description': description, # 일정 설명
             'start': { # 시작 날짜
-                'dateTime': today + 'T09:00:00',
+                'dateTime': start,
                 'timeZone': 'Asia/Seoul',
             },
             'end': { # 종료 날짜
-                'dateTime': today + 'T10:00:00',
+                'dateTime': end,
                 'timeZone': 'Asia/Seoul',
             },
             'recurrence': [ # 반복 지정
@@ -39,4 +39,11 @@ def create():
     print('Event created: %s' % (event.get('htmlLink')))
 
 if __name__ == '__main__':
-    create()
+    today = datetime.date.today().isoformat()
+    create(
+        'itsplay의 OpenAPI 수업',
+        '서울특별시 성북구 정릉동 정릉로 77',
+        'itsplay와 OpenAPI 수업에 대한 설명입니다.',
+        today + 'T09:00:00',
+        today + 'T10:00:00'
+    )
