@@ -4,7 +4,7 @@ from login import login
 
 
 # 구글 캘린더 API 서비스 객체 생성
-login()
+creds = login()
 today = datetime.date.today().isoformat()
 service = build('calendar', 'v3', credentials=creds)
 
