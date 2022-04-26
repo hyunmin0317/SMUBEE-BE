@@ -1,3 +1,4 @@
+from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 
 def login():
@@ -13,4 +14,8 @@ def login():
     # 새 창이 열리면서 구글 로그인 및 정보 제공 동의 후 최종 인증이 완료됩니다.
     flow = InstalledAppFlow.from_client_secrets_file(creds_filename, SCOPES)
     creds = flow.run_local_server(port=8000)
-    return creds
+    service = build('calendar', 'v3', credentials=creds)
+    return service
+
+if __name__ == '__main__':
+    login()
