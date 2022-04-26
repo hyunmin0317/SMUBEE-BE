@@ -3,8 +3,8 @@ from __future__ import print_function
 import datetime
 import os.path
 
-from google.auth.transport.requests import Request
-from google.oauth2.credentials import Credentials
+from login.auth.transport.requests import Request
+from login.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
@@ -15,7 +15,7 @@ SCOPES = ['https://www.googleapis.com/auth/calendar.readonly']
 
 def main():
     """Shows basic usage of the Google Calendar API.
-    Prints the start and name of the next 10 events on the user's calendar.
+    Prints the start and name of the next 10 events on the user's google-calendar.
     """
     creds = None
     # The file token.json stores the user's access and refresh tokens, and is
@@ -36,7 +36,7 @@ def main():
             token.write(creds.to_json())
 
     try:
-        service = build('calendar', 'v3', credentials=creds)
+        service = build('google-calendar', 'v3', credentials=creds)
 
         # Call the Calendar API
         now = datetime.datetime.utcnow().isoformat() + 'Z'  # 'Z' indicates UTC time
