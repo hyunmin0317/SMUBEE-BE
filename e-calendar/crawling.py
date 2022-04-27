@@ -29,7 +29,7 @@ def subject(session):
     return data
 
 
-def course(session, code):
+def course(session, course_name, code):
     data = []
     ratios = []
     request = session.get('https://ecampus.smu.ac.kr/report/ubcompletion/user_progress.php?id='+code)
@@ -52,7 +52,7 @@ def course(session, code):
                 ratios.append(course.text)
 
     for name, ratio, close in zip(names, ratios, closes):
-        data.append({'name': name.text, 'ratio': ratio, 'close': close['title'].split('~')[1][1:-1]})
+        data.append({'course': course_name, 'name': name.text, 'ratio': ratio, 'close': close['title'].split('~')[1][1:-1]})
     return data
 
 
@@ -80,5 +80,5 @@ def course_data(id, password):
     else:
         subjects = subject(session)
         for sub in subjects:
-            data += course(session, sub['code'])
+            data += course(session, sub['name'], sub['code'])
     return data

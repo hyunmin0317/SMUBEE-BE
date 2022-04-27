@@ -51,10 +51,6 @@ def create(service, summary, location, description, start, end):
                 'dateTime': end,
                 'timeZone': 'Asia/Seoul',
             },
-            'attendees': [ # 참석자
-                {'email': 'lpage@example.com'},
-                {'email': 'sbrin@example.com'},
-            ],
             'reminders': { # 알림 설정
                 'useDefault': False,
                 'overrides': [
@@ -83,3 +79,8 @@ def delete(service, event):
     eventId = event.get('id')
     service.events().delete(calendarId='primary', eventId=eventId).execute()
     print(f'{eventId} 삭제 완료')
+
+def delete_all(service):
+    events_result = read(service)
+    for event in events_result:
+        delete(service, event)

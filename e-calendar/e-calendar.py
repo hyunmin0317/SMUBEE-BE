@@ -1,11 +1,6 @@
 from crawling import course_data
-from google_api import login, create, read, delete
+from google_api import login, create, delete_all
 
-
-def delete_all(service):
-    events_result = read(service)
-    for event in events_result:
-        delete(service, event)
 
 if __name__ == '__main__':
     service = login()
@@ -15,11 +10,13 @@ if __name__ == '__main__':
     for data in data_list:
         print(data)
         date = data['close'][:10]
+        description = '수업명: '+data['course']+'\n진도율: '+data['ratio']
+
         create(
             service,
             data['name'],
             '상명대학교',
-            data['ratio'],
+            description,
             date + 'T23:59:59',
             date + 'T23:59:59'
         )
