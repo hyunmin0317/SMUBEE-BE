@@ -1,6 +1,7 @@
 import requests
 from bs4 import BeautifulSoup as bs
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from django.shortcuts import render
 
 from user.models import Profile
@@ -88,9 +89,15 @@ def assign(session, code):
 
 @login_required(login_url='user:login')
 def home(request):
-    user = request.user
-    id = user.username
-    password = Profile.objects.get(user=user).password
+    if request.user.is_authenticated:
+        user = User.objects.get(id=request.user.id)
+        try:
+            profile = Profile.objects.get(user_id=user.id)
+        except:
+            Profile.objects.create(user=user)
+
+    id = request.user.username
+    password = profile.password
     session = login(id, password)
 
     if session == -1:
@@ -140,4 +147,5 @@ def all(request):
 
 @login_required(login_url='user:login')
 def calendar(request):
-    return render(request, 'ecampus/calendar.html')
+    context = {'email':request.user.email}
+    return render(request, 'ecampus/calendar.html', context)
