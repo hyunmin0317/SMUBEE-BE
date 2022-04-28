@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load socialaccount %}
 {% block content %}
 <div class="container my-3">
     <div class="row">
@@ -24,6 +25,7 @@
                    value="{{ form.password.value|default_if_none:'' }}">
         </div><br>
         <button type="submit" class="btn btn-primary">로그인</button>
+        <a href="{% provider_login_url 'google' %}" class="btn btn-primary">구글 로그인</a><br>
     </form>
 </div>
 {% endblock %}

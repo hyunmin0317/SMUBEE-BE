@@ -21,5 +21,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', ecampus.views.home, name='home'),
     path('ecampus/', include('ecampus.urls')),
-    path('user/', include('user.urls'))
+    path('user/', include('user.urls')),
+    path('google/', include('allauth.urls')),
 ]
