@@ -43,8 +43,7 @@
                 환영합니다. {{ user.username }} 님!
               </a>
               <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                <li><a class="dropdown-item" href="#">게시물</a></li>
-                <li><a class="dropdown-item" href="#">프로필</a></li>
+                <li><a class="dropdown-item" href="{% url 'ecampus:calendar' %}">캘린더</a></li>
                 <li><a class="dropdown-item" href="{% url 'user:logout' %}">Logout</a></li>
               </ul>
             </li>

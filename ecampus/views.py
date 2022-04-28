@@ -137,3 +137,7 @@ def all(request):
             assigns += ass
     context = {'courses': courses, 'assigns': assigns}
     return render(request, 'ecampus/detail.html', context)
+
+@login_required(login_url='user:login')
+def calendar(request):
+    return render(request, 'ecampus/calendar.html')
