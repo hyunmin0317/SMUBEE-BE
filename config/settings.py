@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'knox',
     'user.apps.UserConfig',
+    'planner.apps.PlannerConfig',
 ]
 
 MIDDLEWARE = [
