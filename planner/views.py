@@ -1,3 +1,4 @@
+from django.db.models import Q
 from rest_framework.generics import ListAPIView, RetrieveAPIView, UpdateAPIView, DestroyAPIView, CreateAPIView
 from planner.models import Plan
 from planner.serializers import PlanSerializer, CreateSerializer
@@ -27,3 +28,14 @@ class UpdateAPI(UpdateAPIView):
 class DeleteAPI(DestroyAPIView):
     queryset = Plan.objects.all()
     serializer_class = PlanSerializer
+
+class DateAPI(ListAPIView):
+    serializer_class = PlanSerializer
+
+    def get_queryset(self):
+        date = self.kwargs['date']
+        print(date)
+        q = Q()
+        q &= Q(user=self.request.user)
+        q &= Q(date__range=[date+'+00:00:00', date+'+23:59:59'])
+        return Plan.objects.filter(q)
