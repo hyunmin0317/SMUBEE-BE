@@ -1,30 +1,19 @@
-# SMU Project
+# SUMUBI Backend
 
 ### 졸업 프로젝트 (2022.01.02 ~ )
 
 ---
-## :book: 실행
+## ⚒️기술 스택
 
-```
-# 패키지 설치
-pip install django
-pip install requests
-pip install bs4
-
-# 마이그레이션
-python manage.py makemigrations
-python manage.py migrate
-
-# 서버 실행
-python manage.py runserver
-```
+* 프레임워크: Django REST framework
+* 언어: Python
 
 ## :computer: 팀원 
 
+> **최현민 [(hyunmin0317)](https://github.com/hyunmin0317)**
+> 
 > **김범수** 
 >
 > **이남곤**
 > 
 > **박종운**
-> 
-> **최현민 [(hyunmin0317)](https://github.com/hyunmin0317)**
