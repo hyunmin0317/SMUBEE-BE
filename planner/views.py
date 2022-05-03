@@ -30,7 +30,6 @@ class DateAPI(ListAPIView):
 
     def get_queryset(self):
         date = self.kwargs['date']
-        print(date)
         q = Q()
         q &= Q(user=self.request.user)
         q &= Q(date__range=[date+'+00:00:00', date+'+23:59:59'])
