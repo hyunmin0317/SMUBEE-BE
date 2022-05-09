@@ -62,8 +62,6 @@ class CreateAPI(CreateAPIView):
 def update(id, password, user):
     data_list = course_data(id, password)
     for data in data_list:
-        content = '수업명: '+data['course']+'\n진도율: '+data['ratio']
-        date = data['close'][:10]
-        updated_rows = Plan.objects.filter(user_id=user.id, title=data['name'], category='Class').update(content=content)
+        updated_rows = Plan.objects.filter(user_id=user.id, title=data['title'], category='Class').update(content=data['content'])
         if not updated_rows:
-            Plan.objects.create(user_id=user.id, title=data['name'], category='Class', content=content, date=date)
+            Plan.objects.create(user_id=user.id, title=data['name'], category='Class', content=data['content'], date=data['date'])

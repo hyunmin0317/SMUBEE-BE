@@ -52,11 +52,13 @@ def course(session, course_name, code):
                 ratios.append(course.text)
 
     for name, ratio, close in zip(names, ratios, closes):
-        data.append({'course': course_name, 'name': name.text, 'ratio': ratio, 'close': close['title'].split('~')[1][1:-1]})
+        title = f'강의-{name.text}'
+        content = f'수업명: {course_name}\n현황: {ratio}'
+        data.append({'title': title, 'content': content, 'date': close['title'].split('~')[1][1:-1][:10]})
     return data
 
 
-def assign(session, code):
+def assign(session, course_name, code):
     data = []
     request = session.get('https://ecampus.smu.ac.kr/mod/assign/index.php?id='+code)
     source = request.text
@@ -67,7 +69,9 @@ def assign(session, code):
     submits = soup.find_all('td', class_='cell c3')
 
     for name, close, submit in zip(names, closes, submits):
-        data.append({'name': name.text, 'close': close.text, 'submit': submit.text})
+        title = f'과제-{name.text}'
+        content = f'수업명: {course_name}\n현황: {submit.text}'
+        data.append({'title': title, 'content': content, 'date': close.text[:10]})
     return data
 
 
@@ -81,4 +85,5 @@ def course_data(id, password):
         subjects = subject(session)
         for sub in subjects:
             data += course(session, sub['name'], sub['code'])
+            data += assign(session, sub['name'], sub['code'])
     return data
