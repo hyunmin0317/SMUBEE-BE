@@ -10,7 +10,7 @@ from user.models import Profile
 class PlanListAPI(ListAPIView):
     serializer_class = PlanSerializer
     def get_queryset(self):
-        return Plan.objects.filter(user=self.request.user, category='Plan')
+        return Plan.objects.filter(user=self.request.user)
 
 
 class ClassListAPI(ListAPIView):
@@ -64,4 +64,4 @@ def update(id, password, user):
     for data in data_list:
         updated_rows = Plan.objects.filter(user_id=user.id, title=data['title'], category='Class').update(content=data['content'])
         if not updated_rows:
-            Plan.objects.create(user_id=user.id, title=data['name'], category='Class', content=data['content'], date=data['date'])
+            Plan.objects.create(user_id=user.id, title=data['title'], category='Class', content=data['content'], date=data['date'])
