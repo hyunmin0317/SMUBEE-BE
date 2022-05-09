@@ -8,6 +8,7 @@ class PlanSerializer(serializers.ModelSerializer):
 
 class CreateSerializer(serializers.ModelSerializer):
     user = serializers.ReadOnlyField(source='user.id')
+    category = serializers.ReadOnlyField()
     date = serializers.ReadOnlyField()
 
     class Meta:
