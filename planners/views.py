@@ -2,8 +2,8 @@ from datetime import datetime
 from .crawling import course_data
 from django.db.models import Q
 from rest_framework.generics import ListAPIView, RetrieveAPIView, UpdateAPIView, DestroyAPIView, CreateAPIView
-from planner.models import Plan
-from planner.serializers import PlanSerializer, CreateSerializer
+from planners.models import Plan
+from planners.serializers import PlanSerializer, CreateSerializer
 from user.models import Profile
 
 
