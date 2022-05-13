@@ -7,6 +7,10 @@ pip3 install django-rest-knox
 pip3 install requests
 pip3 install bs4
 
+# install - sqlite 3.9.0
+wget https://kojipkgs.fedoraproject.org//packages/sqlite/3.9.0/1.fc21/x86_64/sqlite-3.9.0-1.fc21.x86_64.rpm
+sudo yum install sqlite-3.9.0-1.fc21.x86_64.rpm sqlite-devel-3.9.0-1.fc21.x86_64.rpm
+
 # runserver
 git clone https://github.com/hyunmin0317/SUMUBI-BE
 cd SUMUBI-BE
