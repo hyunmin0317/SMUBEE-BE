@@ -1,0 +1,15 @@
+# install
+sudo yum install git
+sudo yum install python3
+pip3 install django
+pip3 install django-rest-framework
+pip3 install django-rest-knox
+pip3 install requests
+pip3 install bs4
+
+# runserver
+git clone https://github.com/hyunmin0317/SUMUBI-BE
+cd SUMUBI-BE
+python3 manage.py makemigrations
+python3 manage.py migrate
+nohup python3 manage.py runserver 0:8000 &
