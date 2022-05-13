@@ -7,7 +7,7 @@ class PlanSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class CreateSerializer(serializers.ModelSerializer):
-    user = serializers.ReadOnlyField(source='user.id')
+    user = serializers.ReadOnlyField(source='users.id')
     category = serializers.ReadOnlyField()
     date = serializers.ReadOnlyField()
 

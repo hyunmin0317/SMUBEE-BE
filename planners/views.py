@@ -4,7 +4,7 @@ from django.db.models import Q
 from rest_framework.generics import ListAPIView, RetrieveAPIView, UpdateAPIView, DestroyAPIView, CreateAPIView
 from planners.models import Plan
 from planners.serializers import PlanSerializer, CreateSerializer
-from user.models import Profile
+from users.models import Profile
 
 
 class PlanListAPI(ListAPIView):

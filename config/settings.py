@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'knox',
-    'user.apps.UserConfig',
+    'users.apps.UserConfig',
     'planners.apps.PlannerConfig',
 ]
 

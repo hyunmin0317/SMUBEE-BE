@@ -1,12 +1,12 @@
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.shortcuts import render, redirect, get_object_or_404
-from user.forms import UserForm
+from users.forms import UserForm
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 
 
-from user.models import Profile
+from users.models import Profile
 
 # 계정생성
 def signup(request):
@@ -24,5 +24,5 @@ def signup(request):
     else:
         form = UserForm()
     context = {'form': form}
-    return render(request, 'user/signup.html', context)
+    return render(request, 'users/signup.html', context)
 

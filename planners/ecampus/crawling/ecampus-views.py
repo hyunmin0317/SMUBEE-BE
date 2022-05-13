@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.shortcuts import render
 
-from user.models import Profile
+from users.models import Profile
 
 
 def login(id, password):
@@ -87,7 +87,7 @@ def assign(session, code):
     return data, subject_name
 
 
-@login_required(login_url='user:login')
+@login_required(login_url='users:login')
 def home(request):
     if request.user.is_authenticated:
         user = User.objects.get(id=request.user.id)
@@ -108,7 +108,7 @@ def home(request):
     return render(request, 'ecampus/home.html', context)
 
 
-@login_required(login_url='user:login')
+@login_required(login_url='users:login')
 def detail(request, code):
     user = request.user
     id = user.username
@@ -125,7 +125,7 @@ def detail(request, code):
     return render(request, 'ecampus/detail.html', context)
 
 
-@login_required(login_url='user:login')
+@login_required(login_url='users:login')
 def all(request):
     courses = []
     assigns = []
@@ -145,7 +145,7 @@ def all(request):
     context = {'courses': courses, 'assigns': assigns}
     return render(request, 'ecampus/detail.html', context)
 
-@login_required(login_url='user:login')
+@login_required(login_url='users:login')
 def calendar(request):
     context = {'email':request.user.email}
     return render(request, 'ecampus/calendar.html', context)
