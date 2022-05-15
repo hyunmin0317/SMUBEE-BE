@@ -1,4 +1,4 @@
-# SUMUBI Backend
+# SMUBEE Backend
 
 ### 졸업 프로젝트 (2022.01.02 ~ )
 
@@ -14,6 +14,6 @@
 > 
 > **김범수** 
 >
-> **이남곤**
+> **이남곤 [(ng-lee)](https://github.com/ng-lee)**
 > 
 > **박종운**
