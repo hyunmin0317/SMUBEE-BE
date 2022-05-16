@@ -1,7 +1,7 @@
 from rest_framework import permissions, generics, status
 from rest_framework.response import Response
 from knox.models import AuthToken
-from .ecampus import login
+from crawling import login
 from .models import Profile
 from .serializers import CreateUserSerializer, UserSerializer, LoginUserSerializer
 
