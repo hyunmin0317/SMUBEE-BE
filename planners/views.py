@@ -1,5 +1,5 @@
 from datetime import datetime
-from crawling import course_data
+from ecampus import course_data
 from django.db.models import Q
 from rest_framework.generics import ListAPIView, RetrieveAPIView, UpdateAPIView, DestroyAPIView, CreateAPIView
 from planners.models import Plan
