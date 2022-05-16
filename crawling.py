@@ -87,3 +87,19 @@ def course_data(id, password):
             data += course(session, sub['name'], sub['code'])
             data += assign(session, sub['name'], sub['code'])
     return data
+
+def professor():
+    url = 'https://www.smu.ac.kr/ko/edu/Profile.do?mode=list&pagerLimit=500'
+    src = requests.get(url).text
+    soup = bs(src, 'html.parser')
+    data_list = soup.select('#jwxe_main_content > div > div > div > div > ul > li > div.texts')
+
+    i=0
+    print(f'상명대학교 교수님 수: {len(data_list)}')
+    for data in data_list:
+        i+=1
+        print(f'\n교수님 ({i})')
+        lis = data.find_all('li')
+        print(data.find('strong').text)
+        for li in lis:
+            print(li.text)
