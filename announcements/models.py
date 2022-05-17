@@ -3,17 +3,23 @@ from django.db import models
 
 class Announcement(models.Model):
 
-    CATEGORY_SEO = "Seoul"
-    CATEGORY_CHEO = "Cheonan"
+    CAMPUS_SEO = "seoul"
+    CAMPUS_CHEO = "cheonan"
+    CAMPUS_BOTH = "both"
 
-    CATEGORY_CHOICES = (
-        (CATEGORY_SEO, "seoul"),
-        (CATEGORY_CHEO, "cheonan"),
+    CAMPUS_CHOICES = (
+        (CAMPUS_SEO, "Seoul"),
+        (CAMPUS_CHEO, "Cheonan"),
+        (CAMPUS_BOTH, "Both"),
     )
 
     title = models.CharField(max_length=30)
     pinned = models.BooleanField(default=False)
-    created = models.DateField()
-    category = models.CharField(max_length=10, choices=CATEGORY_CHOICES)
-    view_count = models.IntegerField()
+    number = models.IntegerField()
+    created_date = models.DateField()
+    campus = models.CharField(max_length=10, choices=CAMPUS_CHOICES)
+    views = models.IntegerField()
     more_link = models.CharField(max_length=200)
+
+    def __str__(self):
+        return f"{self.number} :: {self.created_date} "
