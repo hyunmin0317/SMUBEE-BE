@@ -12,8 +12,8 @@ wget https://kojipkgs.fedoraproject.org//packages/sqlite/3.9.0/1.fc21/x86_64/sql
 sudo yum install sqlite-3.9.0-1.fc21.x86_64.rpm sqlite-devel-3.9.0-1.fc21.x86_64.rpm
 
 # runserver
-git clone https://github.com/hyunmin0317/SUMUBI-BE
-cd SUMUBI-BE
+git clone https://github.com/hyunmin0317/SMUBEE-BE
+cd SMUBEE-BE
 python3 manage.py makemigrations
 python3 manage.py migrate
 nohup python3 manage.py runserver 0:8000 &

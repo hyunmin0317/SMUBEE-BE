@@ -6,7 +6,7 @@ class Professor(models.Model):
     office = models.CharField(max_length=20, null=True)
     email = models.EmailField(max_length=30)
     contact_number = models.CharField(max_length=20, null=True)
-    more_link = models.CharField(max_length=300)
+    more_link = models.URLField(max_length=300)
 
     def __str__(self):
         return self.name

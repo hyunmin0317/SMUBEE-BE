@@ -15,11 +15,11 @@ class Announcement(models.Model):
 
     title = models.CharField(max_length=30)
     pinned = models.BooleanField(default=False)
-    number = models.IntegerField()
+    number = models.IntegerField(unique=True, primary_key=True)
     created_date = models.DateField()
     campus = models.CharField(max_length=10, choices=CAMPUS_CHOICES)
     views = models.IntegerField()
-    more_link = models.CharField(max_length=200)
+    more_link = models.URLField(max_length=200)
 
     def __str__(self):
-        return f"{self.number} :: {self.created_date} "
+        return f"{self.number} :: {self.created_date}"

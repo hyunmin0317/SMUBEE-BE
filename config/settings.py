@@ -40,11 +40,13 @@ DJANGO_APPS = [
 ]
 
 PROJECT_APPS = [
+    "core.apps.CoreConfig",
     "users.apps.UserConfig",
     "planners.apps.PlannerConfig",
     "courses.apps.CoursesConfig",
     "professors.apps.ProfessorsConfig",
     "announcements.apps.AnnouncementsConfig",
+    "notifications.apps.NotificationsConfig",
 ]
 
 THIRD_PARTY_APPS = [

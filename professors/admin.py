@@ -1,4 +1,10 @@
 from django.contrib import admin
 from . import models
 
-admin.site.register(models.Professor)
+
+@admin.register(models.Professor)
+class ProfessorAdmin(admin.ModelAdmin):
+
+    ordering = [
+        "name",
+    ]
