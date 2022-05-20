@@ -5,7 +5,8 @@ from professors import models as professor_models
 
 class Course(models.Model):
     title = models.CharField(max_length=20)
-    code = models.CharField(max_length=10)
+    code = models.CharField(max_length=10)  # 학수번호
+    divided_class = models.IntegerField()  # 분반
     student = models.ForeignKey(User, on_delete=models.CASCADE, related_name="courses")
     professor = models.ForeignKey(
         professor_models.Professor,
