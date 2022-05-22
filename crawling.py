@@ -103,3 +103,14 @@ def professor():
         print(data.find('strong').text)
         for li in lis:
             print(li.text)
+
+
+def infomation(session):
+    url = 'https://ecampus.smu.ac.kr/user/user_edit.php'
+    request = session.get(url)
+    source = request.text
+    soup = bs(source, 'html.parser')
+    print(soup.select_one("p.department").text)
+
+
+infomation(login('201911019', 'password'))
