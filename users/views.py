@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 from rest_framework import permissions, generics, status
 from rest_framework.response import Response
 from knox.models import AuthToken
-from crawling import login
+from crawling import login, infomation
 from .models import Profile
 from .serializers import UserSerializer
 
@@ -11,7 +11,8 @@ from .serializers import UserSerializer
 class LoginAPI(generics.GenericAPIView):
     def post(self, request, *args, **kwargs):
         id, password = request.data["username"], request.data["password"]
-        if login(id, password) == -1:
+        session = login(id, password)
+        if session == -1:
             body = {"message": "ecampus login error"}
             return Response(body, status=status.HTTP_400_BAD_REQUEST)
 
@@ -22,11 +23,15 @@ class LoginAPI(generics.GenericAPIView):
 
         updated_rows = Profile.objects.filter(user=user).update(password=password)
         if not updated_rows:
-            Profile.objects.create(user=user, password=password)
+            name, major = infomation(session)
+            Profile.objects.create(user=user, password=password, name=name, major=major)
+        profile = Profile.objects.get(user=user)
 
         _, token = AuthToken.objects.create(user)
         return Response(
             {
+                "name": profile.name,
+                "major": profile.major,
                 "token": token
             }
         )

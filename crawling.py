@@ -106,11 +106,10 @@ def professor():
 
 
 def infomation(session):
-    url = 'https://ecampus.smu.ac.kr/user/user_edit.php'
+    url = 'https://ecampus.smu.ac.kr/'
     request = session.get(url)
     source = request.text
     soup = bs(source, 'html.parser')
-    print(soup.select_one("p.department").text)
-
-
-infomation(login('201911019', 'password'))
+    name = soup.select_one("li.user_department").text
+    majar = soup.select_one("p.department").text
+    return name, majar

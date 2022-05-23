@@ -121,15 +121,13 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
 
-LANGUAGE_CODE = "en-us"
+LANGUAGE_CODE = "ko-kr"
 
 TIME_ZONE = "Asia/Seoul"
 
 USE_I18N = True
 
 USE_TZ = True
-
-AUTH_USER_MODEL = "users.User"
 
 
 # Static files (CSS, JavaScript, Images)
@@ -145,3 +143,4 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": ("knox.auth.TokenAuthentication",),
 }
+
