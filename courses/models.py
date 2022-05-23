@@ -17,7 +17,44 @@ class Course(models.Model):
 
 
 class Week(models.Model):
-    week = models.IntegerField()
+
+    WEEK_1ST = 1
+    WEEK_2ND = 2
+    WEEK_3RD = 3
+    WEEK_4TH = 4
+    WEEK_5TH = 5
+    WEEK_6TH = 6
+    WEEK_7TH = 7
+    WEEK_8TH = 8
+    WEEK_9TH = 9
+    WEEK_10TH = 10
+    WEEK_11TH = 11
+    WEEK_12TH = 12
+    WEEK_13TH = 13
+    WEEK_14TH = 14
+    WEEK_15TH = 15
+    WEEK_16TH = 16
+
+    WEEK_CHOICES = (
+        (WEEK_1ST, 1),
+        (WEEK_2ND, 2),
+        (WEEK_3RD, 3),
+        (WEEK_4TH, 4),
+        (WEEK_5TH, 5),
+        (WEEK_6TH, 6),
+        (WEEK_7TH, 7),
+        (WEEK_8TH, 8),
+        (WEEK_9TH, 9),
+        (WEEK_10TH, 10),
+        (WEEK_11TH, 11),
+        (WEEK_12TH, 12),
+        (WEEK_13TH, 13),
+        (WEEK_14TH, 14),
+        (WEEK_15TH, 15),
+        (WEEK_16TH, 16),
+    )
+
+    week = models.IntegerField(choices=WEEK_CHOICES)
     course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name="weeks")
 
 
