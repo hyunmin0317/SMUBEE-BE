@@ -1,8 +1,12 @@
 from django.db import models
 from core import models as core_models
+from users import models as user_models
 
 
 class Notification(core_models.TimeStampedModel):
+    user = models.ForeignKey(
+        user_models.User, on_delete=models.CASCADE, related_name="notifications"
+    )
     category = models.CharField(max_length=10)
     content = models.TextField(max_length=200)
     erased = models.BooleanField(default=False)

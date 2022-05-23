@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import User
+from users import models as user_models
 from professors import models as professor_models
 
 
@@ -7,9 +7,9 @@ class Course(models.Model):
     title = models.CharField(max_length=20)
     code = models.CharField(max_length=10)  # 학수번호
     divided_class = models.IntegerField()  # 분반
+    url_code = models.IntegerField()  # 크롤링을 위한 URL id
     student = models.ManyToManyField(
-        User,
-        on_delete=models.CASCADE,
+        user_models.User,
         related_name="courses",
         null=True,
         blank=True,
