@@ -23,8 +23,14 @@ def subject(session):
     prof_list = soup.select('#region-main > div > div.progress_courses > div.course_lists > ul > li > div > a > div.course-name > div.course-title > p')
     code_list = soup.select('#region-main > div > div.progress_courses > div.course_lists > ul > li > div > a')
 
-    for name, prof, code in zip(name_list, prof_list, code_list):
-        dic = {'name': name.text, 'prof': prof.text, 'code': code['href'].split('=')[1]}
+
+    for names, prof, code in zip(name_list, prof_list, code_list):
+        d = names.text.split('(')
+        name = d[0].replace(' ', '')
+        num = d[1].replace(' ', '')
+        dis = d[2].split(')')[0]
+        number = f'{num}-{dis}'
+        dic = {'name': name, 'prof': prof.text, 'code': code['href'].split('=')[1], 'number': number}
         data.append(dic)
     return data
 
@@ -113,3 +119,6 @@ def infomation(session):
     name = soup.select_one("li.user_department").text
     majar = soup.select_one("p.department").text
     return name, majar
+
+
+print(subject(login('201911019', '1q2w3e4r!!')))
