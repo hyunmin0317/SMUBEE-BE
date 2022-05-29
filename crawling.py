@@ -1,5 +1,6 @@
 import requests
 from bs4 import BeautifulSoup as bs
+from announcements.models import Announcement
 
 
 def login(id, password):
@@ -121,4 +122,42 @@ def infomation(session):
     return name, majar
 
 
-print(subject(login('201911019', '1q2w3e4r!!')))
+def announce_update():
+    url = "https://www.smu.ac.kr/lounge/notice/notice.do?mode=list&&articleLimit=1000&article.offset=0"
+    src = requests.get(url).text
+    soup = bs(src, "html.parser")
+    data_list = soup.find("ul", {"class": "board-thumb-wrap"}).select("li > dl")
+
+    for data in data_list:
+        pinned = False
+        content_title = data.select("dt > table > tbody > td")
+        if content_title[0].find("span", {"class": "noti"}):
+            pinned = True
+
+        campus = Announcement.CAMPUS_BOTH
+        campus_value = content_title[1].find("span", {"class": "cmp"})["class"]
+        if "seoul" in campus_value:
+            campus = Announcement.CAMPUS_SEO
+        elif "cheon" in campus_value:
+            campus = Announcement.CAMPUS_CHEO
+
+        title = content_title[2].find("a").text.strip()
+
+        content_info = data.select("dd > ul > li")
+        number = int(content_info[0].text[4:].strip())
+        created_date = content_info[2].text[4:].strip()
+        views = int(content_info[3].text[4:].strip())
+        more_link = f"https://www.smu.ac.kr/lounge/notice/notice.do?mode=view&articleNo={number}"
+
+        updated_rows = Announcement.objects.filter(number=number).update(views=views)
+
+        if not updated_rows:
+            Announcement.objects.create(
+                title=title,
+                pinned=pinned,
+                number=number,
+                created_date=created_date,
+                campus=campus,
+                views=views,
+                more_link=more_link,
+            )
