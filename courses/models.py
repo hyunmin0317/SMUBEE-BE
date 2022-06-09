@@ -12,14 +12,10 @@ class Course(models.Model):
     student = models.ManyToManyField(
         user_models.Profile,
         related_name="courses",
-        on_delete=models.SET_NULL,
-        blank=True,
     )
     professor = models.ManyToManyField(
         professor_models.Professor,
         related_name="courses",
-        on_delete=models.SET_NULL,
-        blank=True,
     )
 
     def __str__(self):

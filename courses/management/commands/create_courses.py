@@ -7,7 +7,7 @@ from openpyxl import load_workbook
 class Command(BaseCommand):
     def handle(self, *args, **options):
 
-        wb = load_workbook("2021-01-courses.xlsx")
+        wb = load_workbook("preprocessed_courses_information.xlsx")
         ws = wb.active
 
         for row in ws.iter_rows():
