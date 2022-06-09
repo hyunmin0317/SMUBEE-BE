@@ -11,5 +11,5 @@ class Notification(core_models.TimeStampedModel):
     link = models.URLField(max_length=200)
 
     user = models.ForeignKey(
-        user_models.User, on_delete=models.CASCADE, related_name="notifications"
+        user_models.Profile, on_delete=models.CASCADE, related_name="notifications"
     )

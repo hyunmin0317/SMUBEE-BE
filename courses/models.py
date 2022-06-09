@@ -5,21 +5,21 @@ from professors import models as professor_models
 
 class Course(models.Model):
     title = models.CharField(max_length=20)
-    code = models.CharField(max_length=10)  # 학수번호
-    divided_class = models.IntegerField()  # 분반
-    url_code = models.IntegerField()  # 크롤링을 위한 URL id
+    course_code = models.CharField(max_length=10)  # 학수번호
+    class_number = models.IntegerField()  # 분반
+    course_id = models.IntegerField(null=True)  # 크롤링을 위한 URL id
 
     student = models.ManyToManyField(
-        user_models.User,
+        user_models.Profile,
         related_name="courses",
-        null=True,
+        on_delete=models.SET_NULL,
         blank=True,
     )
-    professor = models.ForeignKey(
+    professor = models.ManyToManyField(
         professor_models.Professor,
-        on_delete=models.SET_NULL,
-        null=True,
         related_name="courses",
+        on_delete=models.SET_NULL,
+        blank=True,
     )
 
     def __str__(self):
