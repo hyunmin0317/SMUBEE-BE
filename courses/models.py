@@ -8,6 +8,7 @@ class Course(models.Model):
     code = models.CharField(max_length=10)  # 학수번호
     divided_class = models.IntegerField()  # 분반
     url_code = models.IntegerField()  # 크롤링을 위한 URL id
+
     student = models.ManyToManyField(
         user_models.User,
         related_name="courses",
@@ -20,6 +21,9 @@ class Course(models.Model):
         null=True,
         related_name="courses",
     )
+
+    def __str__(self):
+        return self.title
 
 
 class Week(models.Model):
@@ -62,6 +66,9 @@ class Week(models.Model):
 
     week = models.IntegerField(choices=WEEK_CHOICES)
     course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name="weeks")
+
+    def __str__(self):
+        return self.week
 
 
 class LectureVideo(models.Model):

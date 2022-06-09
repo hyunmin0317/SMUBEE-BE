@@ -9,6 +9,7 @@ django-rest-framework = "*"
 django-rest-knox = "*"
 requests = "*"
 bs4 = "*"
+openpyxl = "*"
 
 [dev-packages]
 flake8 = "*"
