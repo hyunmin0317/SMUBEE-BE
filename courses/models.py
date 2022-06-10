@@ -9,11 +9,11 @@ class Course(models.Model):
     class_number = models.IntegerField()  # 분반
     course_id = models.IntegerField(null=True)  # 크롤링을 위한 URL id
 
-    student = models.ManyToManyField(
+    students = models.ManyToManyField(
         user_models.Profile,
         related_name="courses",
     )
-    professor = models.ManyToManyField(
+    professors = models.ManyToManyField(
         professor_models.Professor,
         related_name="courses",
     )

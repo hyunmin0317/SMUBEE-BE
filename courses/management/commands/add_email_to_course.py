@@ -37,7 +37,7 @@ duplicated_name = {
     "이상은": [
         ("HADA3341", "lse1213@smu.ac.kr"),
         ("HADA9226", "lse1213@smu.ac.kr"),
-        ("HADA1225", "lse1213@smu.ac.kr"),
+        ("HALR1225", "lse1213@smu.ac.kr"),
         ("HADA1102", "lse1213@smu.ac.kr"),
         ("HADA3321", "lse1213@smu.ac.kr"),
     ],
@@ -59,19 +59,22 @@ class Command(BaseCommand):
             if idx == 0:
                 continue
 
-            pname = row[3].value
-            professors = professor_models.Professor.objects.filter(name=pname)
-            if len(professors) > 1:
-                course_code, _ = row[0].value.split("-")
-                for course in duplicated_name[pname]:
-                    if course_code == course[0]:
-                        ws.cell(idx + 1, 14, course[1])
-                        break
-            else:
-                try:
-                    ws.cell(idx + 1, 14, professors.first().email)
-                except:
-                    pass
+            pnames = row[3].value.split(",")
+            print(pnames)
+            emails = []
+            for pname in pnames:
+                professors = professor_models.Professor.objects.filter(name=pname)
+                if len(professors) > 1:
+                    course_code, _ = row[0].value.split("-")
+                    for course in duplicated_name[pname]:
+                        if course_code == course[0]:
+                            emails.append(course[1])
+                            break
+                elif len(professors) == 1 and professors.first().email is not None:
+                    emails.append(professors.first().email)
+                else:
+                    emails.append("NOTFOUND")
+            ws.cell(idx + 1, 14, ",".join(emails))
 
         wb.save("preprocessed_courses_information.xlsx")
         wb.close()
