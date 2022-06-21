@@ -25,7 +25,6 @@ class Command(BaseCommand):
 
             pfs = row[3].value.split(",")
             emails = row[13].value.split(",")
-            print(emails)
             for pf, email in zip(pfs, emails):
                 if email != "NOTFOUND":
                     professor = professor_models.Professor.objects.get(
@@ -34,7 +33,7 @@ class Command(BaseCommand):
                 else:
                     try:
                         professor = professor_models.Professor.objects.get(name=pf)
-                    except:
+                    except professor_models.Professor.DoesNotExist:
                         professor = professor_models.Professor.objects.create(name=pf)
                 course.professors.add(professor)
 
