@@ -11,9 +11,9 @@
 ## :computer: 팀원 
 
 > **최현민 [(hyunmin0317)](https://github.com/hyunmin0317)**
-> 
-> **김범수** 
 >
 > **이남곤 [(ng-lee)](https://github.com/ng-lee)**
+> 
+> **김범수** 
 > 
 > **박종운**
