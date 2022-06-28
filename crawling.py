@@ -4,34 +4,44 @@ from announcements.models import Announcement
 
 
 def login(id, password):
-    user_info = {'username': id, 'password': password}
+    user_info = {"username": id, "password": password}
     session = requests.Session()
-    request = session.post('https://ecampus.smu.ac.kr/login/index.php', data=user_info)
+    request = session.post("https://ecampus.smu.ac.kr/login/index.php", data=user_info)
 
     # 로그인 성공
-    if request.url == 'https://ecampus.smu.ac.kr/':
+    if request.url == "https://ecampus.smu.ac.kr/":
         return session
     return -1
 
 
 def subject(session):
     data = []
-    request = session.get('https://ecampus.smu.ac.kr/')
+    request = session.get("https://ecampus.smu.ac.kr/")
     source = request.text
-    soup = bs(source, 'html.parser')
+    soup = bs(source, "html.parser")
 
-    name_list = soup.select('#region-main > div > div.progress_courses > div.course_lists > ul > li > div > a > div.course-name > div.course-title > h3')
-    prof_list = soup.select('#region-main > div > div.progress_courses > div.course_lists > ul > li > div > a > div.course-name > div.course-title > p')
-    code_list = soup.select('#region-main > div > div.progress_courses > div.course_lists > ul > li > div > a')
-
+    name_list = soup.select(
+        "#region-main > div > div.progress_courses > div.course_lists > ul > li > div > a > div.course-name > div.course-title > h3"
+    )
+    prof_list = soup.select(
+        "#region-main > div > div.progress_courses > div.course_lists > ul > li > div > a > div.course-name > div.course-title > p"
+    )
+    code_list = soup.select(
+        "#region-main > div > div.progress_courses > div.course_lists > ul > li > div > a"
+    )
 
     for names, prof, code in zip(name_list, prof_list, code_list):
-        d = names.text.split('(')
-        name = d[0].replace(' ', '')
-        num = d[1].replace(' ', '')
-        dis = d[2].split(')')[0]
-        number = f'{num}-{dis}'
-        dic = {'name': name, 'prof': prof.text, 'code': code['href'].split('=')[1], 'number': number}
+        d = names.text.split("(")
+        name = d[0].replace(" ", "")
+        num = d[1].replace(" ", "")
+        dis = d[2].split(")")[0]
+        number = f"{num}-{dis}"
+        dic = {
+            "name": name,
+            "prof": prof.text,
+            "code": code["href"].split("=")[1],
+            "number": number,
+        }
         data.append(dic)
     return data
 
@@ -39,46 +49,54 @@ def subject(session):
 def course(session, course_name, code):
     data = []
     ratios = []
-    request = session.get('https://ecampus.smu.ac.kr/report/ubcompletion/user_progress.php?id='+code)
+    request = session.get(
+        "https://ecampus.smu.ac.kr/report/ubcompletion/user_progress.php?id=" + code
+    )
     source = request.text
-    soup = bs(source, 'html.parser')
+    soup = bs(source, "html.parser")
     body = soup.find("table", class_="user_progress")
 
     if body is None:
         return data
 
     names = body.find_all("td", class_="text-left")
-    closes = body.find_all('button', class_='track_detail')
+    closes = body.find_all("button", class_="track_detail")
 
     i = 0
-    courses = body.find_all('td', class_='text-center')
+    courses = body.find_all("td", class_="text-center")
     for course in courses:
-        if course['class'][0] == 'text-center':
+        if course["class"][0] == "text-center":
             i += 1
             if i % 3 == 0:
                 ratios.append(course.text)
 
     for name, ratio, close in zip(names, ratios, closes):
-        title = f'강의-{name.text}'
-        content = f'수업명: {course_name}\n현황: {ratio}'
-        data.append({'title': title, 'content': content, 'date': close['title'].split('~')[1][1:-1][:10]})
+        title = f"강의-{name.text}"
+        content = f"수업명: {course_name}\n현황: {ratio}"
+        data.append(
+            {
+                "title": title,
+                "content": content,
+                "date": close["title"].split("~")[1][1:-1][:10],
+            }
+        )
     return data
 
 
 def assign(session, course_name, code):
     data = []
-    request = session.get('https://ecampus.smu.ac.kr/mod/assign/index.php?id='+code)
+    request = session.get("https://ecampus.smu.ac.kr/mod/assign/index.php?id=" + code)
     source = request.text
-    soup = bs(source, 'html.parser')
+    soup = bs(source, "html.parser")
 
-    names = soup.find_all('td', class_='cell c1')
-    closes = soup.find_all('td', class_='cell c2')
-    submits = soup.find_all('td', class_='cell c3')
+    names = soup.find_all("td", class_="cell c1")
+    closes = soup.find_all("td", class_="cell c2")
+    submits = soup.find_all("td", class_="cell c3")
 
     for name, close, submit in zip(names, closes, submits):
-        title = f'과제-{name.text}'
-        content = f'수업명: {course_name}\n현황: {submit.text}'
-        data.append({'title': title, 'content': content, 'date': close.text[:10]})
+        title = f"과제-{name.text}"
+        content = f"수업명: {course_name}\n현황: {submit.text}"
+        data.append({"title": title, "content": content, "date": close.text[:10]})
     return data
 
 
@@ -87,36 +105,20 @@ def course_data(id, password):
     session = login(id, password)
 
     if session == -1:
-        print('로그인 실패')
+        print("로그인 실패")
     else:
         subjects = subject(session)
         for sub in subjects:
-            data += course(session, sub['name'], sub['code'])
-            data += assign(session, sub['name'], sub['code'])
+            data += course(session, sub["name"], sub["code"])
+            data += assign(session, sub["name"], sub["code"])
     return data
-
-def professor():
-    url = 'https://www.smu.ac.kr/ko/edu/Profile.do?mode=list&pagerLimit=500'
-    src = requests.get(url).text
-    soup = bs(src, 'html.parser')
-    data_list = soup.select('#jwxe_main_content > div > div > div > div > ul > li > div.texts')
-
-    i=0
-    print(f'상명대학교 교수님 수: {len(data_list)}')
-    for data in data_list:
-        i+=1
-        print(f'\n교수님 ({i})')
-        lis = data.find_all('li')
-        print(data.find('strong').text)
-        for li in lis:
-            print(li.text)
 
 
 def infomation(session):
-    url = 'https://ecampus.smu.ac.kr/'
+    url = "https://ecampus.smu.ac.kr/"
     request = session.get(url)
     source = request.text
-    soup = bs(source, 'html.parser')
+    soup = bs(source, "html.parser")
     name = soup.select_one("li.user_department").text
     majar = soup.select_one("p.department").text
     return name, majar
@@ -149,9 +151,10 @@ def announce_update():
         views = int(content_info[3].text[4:].strip())
         more_link = f"https://www.smu.ac.kr/lounge/notice/notice.do?mode=view&articleNo={number}"
 
-        updated_rows = Announcement.objects.filter(number=number).update(views=views)
-
-        if not updated_rows:
+        try:
+            announcement = Announcement.objects.get(number=number)
+            announcement.update(views=views)
+        except Announcement.DoesNotExist:
             Announcement.objects.create(
                 title=title,
                 pinned=pinned,
