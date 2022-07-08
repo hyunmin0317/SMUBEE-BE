@@ -25,6 +25,8 @@ class Command(BaseCommand):
 
         # 월별 크롤링
 
+        cnt = 0
+
         for year in available_years:
             for month in range(1, 13):
                 session = HTMLSession()
@@ -42,8 +44,8 @@ class Command(BaseCommand):
                     date_data = tds[0].text.replace(" ", "").split("~")
                     if date_data[0] == "일정없음":
                         continue
+                    cnt += 1
                     print(date_data)
+                    print(tds[1].find("a")[0].text)
 
-                print("=" * 30)
-
-        self.stdout.write(self.style.SUCCESS(f"{len(data_list)} professors created!"))
+        self.stdout.write(self.style.SUCCESS(f"{cnt} plans created!"))
