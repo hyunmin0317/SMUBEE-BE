@@ -3,6 +3,10 @@ import requests
 from requests_html import HTMLSession
 from bs4 import BeautifulSoup as bs
 
+"""
+    학사일정 크롤링
+"""
+
 
 class Command(BaseCommand):
     def handle(self, *args, **options):
@@ -30,7 +34,8 @@ class Command(BaseCommand):
         for year in available_years:
             for month in range(1, 13):
                 session = HTMLSession()
-                url = f"https://www.smu.ac.kr/ko/life/academicCalendar.do?mode=list&srYear={year}&srMonth={month}"
+                sub_url = f"&srYear={year}&srMonth={month}"
+                url = base_url + sub_url
                 r = session.get(url)
                 r.html.render()
                 data_list = r.html.find(
