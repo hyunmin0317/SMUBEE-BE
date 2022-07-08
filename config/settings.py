@@ -54,6 +54,9 @@ THIRD_PARTY_APPS = [
     "rest_framework.authtoken",
     "knox",
     "openpyxl",
+    "requests",
+    "requests_html",
+    "bs4",
 ]
 
 INSTALLED_APPS = DJANGO_APPS + PROJECT_APPS + THIRD_PARTY_APPS

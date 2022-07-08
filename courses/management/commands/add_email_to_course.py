@@ -60,8 +60,8 @@ class Command(BaseCommand):
                 continue
 
             pnames = row[3].value.split(",")
-            print(pnames)
             emails = []
+
             for pname in pnames:
                 professors = professor_models.Professor.objects.filter(name=pname)
                 if len(professors) > 1:

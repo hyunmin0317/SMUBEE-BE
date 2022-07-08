@@ -10,6 +10,7 @@ django-rest-knox = "*"
 requests = "*"
 bs4 = "*"
 openpyxl = "*"
+requests-html = "*"
 
 [dev-packages]
 flake8 = "*"
