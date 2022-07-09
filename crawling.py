@@ -155,7 +155,7 @@ def announce_update():
         more_link = f"https://www.smu.ac.kr/lounge/notice/notice.do?mode=view&articleNo={number}"
 
         try:
-            announcement = Announcement.objects.get(number=number)
+            announcement = Announcement.objects.filter(number=number)
             announcement.update(views=views)
         except Announcement.DoesNotExist:
             Announcement.objects.create(

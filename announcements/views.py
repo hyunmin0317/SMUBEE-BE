@@ -21,9 +21,10 @@ class AnnounceFilterAPI(ListAPIView):
         return queryset
 
 
-def update(request):
-    try:
+class update(ListAPIView):
+    serializer_class = AnnounceSerializer
+
+    def get_queryset(self):
         announce_update()
-        return HttpResponse(json.dumps({'response': 'success'}))
-    except:
-        return HttpResponse(json.dumps({'response': 'fail'}))
+        queryset = Announcement.objects.all().order_by('-number')
+        return queryset
