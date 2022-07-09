@@ -1,8 +1,6 @@
-import json
 from datetime import datetime
 from crawling import course_data
 from django.db.models import Q
-from django.http import HttpResponse
 from rest_framework.generics import ListAPIView, RetrieveAPIView, UpdateAPIView, DestroyAPIView, CreateAPIView
 from planners.models import Plan
 from planners.serializers import PlanSerializer, CreateSerializer
@@ -12,7 +10,7 @@ from users.models import Profile
 class PlanListAPI(ListAPIView):
     serializer_class = PlanSerializer
     def get_queryset(self):
-        return Plan.objects.filter(user=self.request.user)
+        return Plan.objects.filter(user=self.request.user, category='Plan')
 
 
 class ClassListAPI(ListAPIView):
@@ -62,15 +60,18 @@ def course_update(id, password, user):
     for data in data_list:
         updated_rows = Plan.objects.filter(user_id=user.id, title=data['title'], category='Class').update(content=data['content'])
         if not updated_rows:
-            Plan.objects.create(user_id=user.id, title=data['title'], category='Class', content=data['content'], date=data['date'])
+            try:
+                Plan.objects.create(user_id=user.id, title=data['title'], category='Class', content=data['content'], date=data['date'])
+            except:
+                continue
 
 
-def update(request):
-    user = request.user
-    id = user.username
-    password = Profile.objects.get(user=user).password
-    try:
+class update(ListAPIView):
+    serializer_class = PlanSerializer
+
+    def get_queryset(self):
+        user = self.request.user
+        id = user.username
+        password = Profile.objects.get(user=user).password
         course_update(id, password, user)
-        return HttpResponse(json.dumps({'response': 'success'}))
-    except:
-        return HttpResponse(json.dumps({'response': 'fail'}))
+        return Plan.objects.filter(user=self.request.user, category='Class')

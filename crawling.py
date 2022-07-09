@@ -32,10 +32,13 @@ def subject(session):
 
     for names, prof, code in zip(name_list, prof_list, code_list):
         d = names.text.split("(")
-        name = d[0].replace(" ", "")
-        num = d[1].replace(" ", "")
-        dis = d[2].split(")")[0]
-        number = f"{num}-{dis}"
+        try:
+            name = d[0].replace(" ", "")
+            num = d[1].replace(" ", "")
+            dis = d[2].split(")")[0]
+            number = f"{num}-{dis}"
+        except:
+            continue
         dic = {
             "name": name,
             "prof": prof.text,
