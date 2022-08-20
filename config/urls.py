@@ -21,5 +21,6 @@ urlpatterns = [
     path("users/", include("users.urls")),
     path("planners/", include("planners.urls")),
     path("announcements/", include("announcements.urls")),
+    path("courses/", include("courses.urls")),
     path("api/auth", include("knox.urls")),
 ]

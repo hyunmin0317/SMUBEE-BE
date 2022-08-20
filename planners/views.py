@@ -80,10 +80,10 @@ def course_update(id, password, user):
             if data['status'] == '제출 완료':
                 checked = True
 
-        updated_rows = Plan.objects.filter(user_id=user.id, course=data['name'], title=data['title'], category=data['category']).update(content=data['content'], status=data['status'], checked=checked)
+        updated_rows = Plan.objects.filter(user_id=user.id, course=data['name'], title=data['title'], category=data['category'], code=data['code']).update(content=data['content'], status=data['status'], checked=checked)
         if not updated_rows:
             try:
-                Plan.objects.create(user_id=user.id, course=data['name'], title=data['title'], category=data['category'], content=data['content'], date=data['date'], status=data['status'], checked=checked)
+                Plan.objects.create(user_id=user.id, course=data['name'], title=data['title'], category=data['category'], content=data['content'], date=data['date'], status=data['status'], checked=checked, code=data['code'])
             except:
                 continue
 

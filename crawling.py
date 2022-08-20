@@ -82,7 +82,8 @@ def course(session, course_name, code):
                 "content": content,
                 "date": close["title"].split("~")[1][1:-1][:10],
                 "status": ratio,
-                "category": "course"
+                "category": "course",
+                "code": code
             }
         )
     return data
@@ -100,7 +101,7 @@ def assign(session, course_name, code):
 
     for name, close, submit in zip(names, closes, submits):
         content = f"수업명: {course_name}\n현황: {submit.text}"
-        data.append({"name": course_name, "title": name.text, "content": content, "date": close.text[:10], "status": submit.text, "category": "assign"})
+        data.append({"name": course_name, "title": name.text, "content": content, "date": close.text[:10], "status": submit.text, "category": "assign", "code":code})
     return data
 
 
