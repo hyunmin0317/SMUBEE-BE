@@ -154,10 +154,11 @@ def announce_update():
         views = int(content_info[3].text[4:].strip())
         more_link = f"https://www.smu.ac.kr/lounge/notice/notice.do?mode=view&articleNo={number}"
 
-        try:
-            announcement = Announcement.objects.filter(number=number)
+        announcement = Announcement.objects.filter(number=number)
+
+        if announcement:
             announcement.update(views=views)
-        except Announcement.DoesNotExist:
+        else:
             Announcement.objects.create(
                 title=title,
                 pinned=pinned,
