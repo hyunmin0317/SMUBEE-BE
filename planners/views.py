@@ -10,13 +10,27 @@ from users.models import Profile
 class PlanListAPI(ListAPIView):
     serializer_class = PlanSerializer
     def get_queryset(self):
-        return Plan.objects.filter(user=self.request.user, category='Plan')
+        return Plan.objects.filter(user=self.request.user, category='plan')
 
 
 class ClassListAPI(ListAPIView):
     serializer_class = PlanSerializer
     def get_queryset(self):
-        return Plan.objects.filter(user=self.request.user, category='Class')
+        queryset = Plan.objects.filter(user=self.request.user, category='course')
+        queryset.union(Plan.objects.filter(user=self.request.user, category='assign'))
+        return queryset
+
+
+class CourseListAPI(ListAPIView):
+    serializer_class = PlanSerializer
+    def get_queryset(self):
+        return Plan.objects.filter(user=self.request.user, category='course')
+
+
+class AssignListAPI(ListAPIView):
+    serializer_class = PlanSerializer
+    def get_queryset(self):
+        return Plan.objects.filter(user=self.request.user, category='assign')
 
 
 class DetailAPI(RetrieveAPIView):
@@ -52,16 +66,24 @@ class CreateAPI(CreateAPIView):
     serializer_class = CreateSerializer
     def perform_create(self, serializer):
         date = datetime.strptime(self.kwargs['date'], '%Y-%m-%d').date()
-        serializer.save(user=self.request.user, category='Plan', date=date)
+        serializer.save(user=self.request.user, category='plan', date=date)
 
 
 def course_update(id, password, user):
     data_list = course_data(id, password)
     for data in data_list:
-        updated_rows = Plan.objects.filter(user_id=user.id, title=data['title'], category='Class').update(content=data['content'])
+        checked = False
+        if data['category'] == 'course':
+            if data['status'] == '100%':
+                checked = True
+        else:
+            if data['status'] == '제출 완료':
+                checked = True
+
+        updated_rows = Plan.objects.filter(user_id=user.id, course=data['name'], title=data['title'], category=data['category']).update(content=data['content'], status=data['status'], checked=checked)
         if not updated_rows:
             try:
-                Plan.objects.create(user_id=user.id, title=data['title'], category='Class', content=data['content'], date=data['date'])
+                Plan.objects.create(user_id=user.id, course=data['name'], title=data['title'], category=data['category'], content=data['content'], date=data['date'], status=data['status'], checked=checked)
             except:
                 continue
 
@@ -74,4 +96,6 @@ class update(ListAPIView):
         id = user.username
         password = Profile.objects.get(user=user).password
         course_update(id, password, user)
-        return Plan.objects.filter(user=self.request.user, category='Class')
+        queryset = Plan.objects.filter(user=self.request.user, category='course')
+        queryset.union(Plan.objects.filter(user=self.request.user, category='assign'))
+        return queryset

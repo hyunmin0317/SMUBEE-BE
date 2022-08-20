@@ -74,13 +74,15 @@ def course(session, course_name, code):
                 ratios.append(course.text)
 
     for name, ratio, close in zip(names, ratios, closes):
-        title = f"강의-{name.text}"
         content = f"수업명: {course_name}\n현황: {ratio}"
         data.append(
             {
-                "title": title,
+                "name": course_name,
+                "title": name.text,
                 "content": content,
                 "date": close["title"].split("~")[1][1:-1][:10],
+                "status": ratio,
+                "category": "course"
             }
         )
     return data
@@ -97,9 +99,8 @@ def assign(session, course_name, code):
     submits = soup.find_all("td", class_="cell c3")
 
     for name, close, submit in zip(names, closes, submits):
-        title = f"과제-{name.text}"
         content = f"수업명: {course_name}\n현황: {submit.text}"
-        data.append({"title": title, "content": content, "date": close.text[:10]})
+        data.append({"name": course_name, "title": name.text, "content": content, "date": close.text[:10], "status": submit.text, "category": "assign"})
     return data
 
 
@@ -111,6 +112,7 @@ def course_data(id, password):
         print("로그인 실패")
     else:
         subjects = subject(session)
+        subjects = [{'name': '클라우드프로그래밍', 'code': '68630'},{'name': '법과민주주의', 'code': '68916'},{'name': '커리어디자인', 'code': '69025'}]
         for sub in subjects:
             data += course(session, sub["name"], sub["code"])
             data += assign(session, sub["name"], sub["code"])
