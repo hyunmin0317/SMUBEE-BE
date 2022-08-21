@@ -1,4 +1,7 @@
 from rest_framework.generics import ListAPIView
+
+from courses.models import Subject
+from courses.serializers import SubjectSerializer
 from planners.models import Plan
 from planners.serializers import PlanSerializer
 
@@ -17,3 +20,10 @@ class AssignAPI(ListAPIView):
     def get_queryset(self):
         code = self.kwargs['code']
         return Plan.objects.filter(user=self.request.user, code=code, category='assign')
+
+
+class SubjectListAPI(ListAPIView):
+    serializer_class = SubjectSerializer
+
+    def get_queryset(self):
+        return Subject.objects.filter(user=self.request.user)
