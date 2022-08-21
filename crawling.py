@@ -113,11 +113,11 @@ def course_data(id, password):
         print("로그인 실패")
     else:
         subjects = subject(session)
-        subjects = [{'name': '클라우드프로그래밍', 'code': '68630'},{'name': '법과민주주의', 'code': '68916'},{'name': '커리어디자인', 'code': '69025'}]
+        subjects = [{'name': '클라우드프로그래밍', 'prof': '한종대', 'code': '68630'},{'name': '법과민주주의', 'prof': '김용훈', 'code': '68916'},{'name': '커리어디자인', 'prof': '김인주', 'code': '69025'}]
         for sub in subjects:
             data += course(session, sub["name"], sub["code"])
             data += assign(session, sub["name"], sub["code"])
-    return data
+    return data, subjects
 
 
 def infomation(session):

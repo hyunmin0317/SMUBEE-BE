@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.db import models
 from users import models as user_models
 from professors import models as professor_models
@@ -87,3 +88,13 @@ class Assignment(models.Model):
 
     def __str__(self):
         return f"{self.week} :: {self.title}"
+
+
+class Subject(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    name = models.CharField(max_length=20)
+    prof = models.CharField(max_length=20)
+    code = models.CharField(max_length=20)
+
+    def __str__(self):
+        return f'{self.user}:{self.name}'
