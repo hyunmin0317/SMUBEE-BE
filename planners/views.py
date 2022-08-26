@@ -17,8 +17,7 @@ class PlanListAPI(ListAPIView):
 class ClassListAPI(ListAPIView):
     serializer_class = PlanSerializer
     def get_queryset(self):
-        queryset = Plan.objects.filter(user=self.request.user, category='course')
-        queryset.union(Plan.objects.filter(user=self.request.user, category='assign'))
+        queryset = Plan.objects.filter(Q(user=self.request.user)&(Q(category="course")|Q(category="assign"))).order_by('-date')
         return queryset
 
 
