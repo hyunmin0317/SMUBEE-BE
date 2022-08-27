@@ -1,6 +1,7 @@
 import requests
 from bs4 import BeautifulSoup as bs
 from announcements.models import Announcement
+from courses.models import Subject
 
 
 def login(id, password):
@@ -105,18 +106,18 @@ def assign(session, course_name, code):
     return data
 
 
-def course_data(id, password):
+def course_data(id, password, user):
     data = []
     session = login(id, password)
 
     if session == -1:
         print("로그인 실패")
     else:
-        subjects = subject(session)
+        subjects = Subject.objects.filter(user=user)
         for sub in subjects:
-            data += course(session, sub["name"], sub["code"])
-            data += assign(session, sub["name"], sub["code"])
-    return data, subjects
+            data += course(session, sub.name, sub.code)
+            data += assign(session, sub.name, sub.code)
+    return data
 
 
 def infomation(session):

@@ -77,7 +77,7 @@ class CreateAPI(CreateAPIView):
 
 
 def course_update(id, password, user):
-    data_list, subjects = course_data(id, password)
+    data_list = course_data(id, password, user)
     for data in data_list:
         checked = False
         if data['category'] == 'course':
@@ -93,11 +93,6 @@ def course_update(id, password, user):
                 Plan.objects.create(user_id=user.id, course=data['name'], title=data['title'], category=data['category'], content=data['content'], date=data['date'], status=data['status'], checked=checked, code=data['code'])
             except:
                 continue
-
-    for sub in subjects:
-        updated_rows = Subject.objects.filter(user_id=user.id, name=sub["name"], prof=sub["prof"], code=sub["code"])
-        if not updated_rows:
-            Subject.objects.create(user_id=user.id, name=sub["name"], prof=sub["prof"], code=sub["code"])
 
 
 class update(ListAPIView):
