@@ -5,8 +5,10 @@ from rest_framework.generics import ListAPIView
 from rest_framework.response import Response
 from courses.models import Subject
 from courses.serializers import SubjectSerializer
+from crawling import login, subject
 from planners.models import Plan
 from planners.serializers import PlanSerializer
+from users.models import Profile
 
 
 class CourseAPI(ListAPIView):
@@ -31,6 +33,21 @@ class SubjectListAPI(ListAPIView):
     def get_queryset(self):
         return Subject.objects.filter(user=self.request.user)
 
+
+class update(ListAPIView):
+    serializer_class = SubjectSerializer
+
+    def get_queryset(self):
+        user = self.request.user
+        id = user.username
+        password = Profile.objects.get(user=user).password
+        session = login(id, password)
+        subjects = subject(session)
+        for sub in subjects:
+            updated_rows = Subject.objects.filter(user_id=user.id, name=sub["name"], prof=sub["prof"], code=sub["code"])
+            if not updated_rows:
+                Subject.objects.create(user_id=user.id, name=sub["name"], prof=sub["prof"], code=sub["code"])
+        return Subject.objects.filter(user=self.request.user)
 
 @api_view(['GET'])
 def check(request):

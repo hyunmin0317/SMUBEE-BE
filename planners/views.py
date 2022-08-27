@@ -94,10 +94,10 @@ def course_update(id, password, user):
             except:
                 continue
 
-        for sub in subjects:
-            updated_rows = Subject.objects.filter(user_id=user.id, name=sub["name"], prof=sub["prof"], code=sub["code"])
-            if not updated_rows:
-                Subject.objects.create(user_id=user.id, name=sub["name"], prof=sub["prof"], code=sub["code"])
+    for sub in subjects:
+        updated_rows = Subject.objects.filter(user_id=user.id, name=sub["name"], prof=sub["prof"], code=sub["code"])
+        if not updated_rows:
+            Subject.objects.create(user_id=user.id, name=sub["name"], prof=sub["prof"], code=sub["code"])
 
 
 class update(ListAPIView):
