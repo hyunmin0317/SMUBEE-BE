@@ -6,7 +6,7 @@ from .views import CreateAPI, PlanListAPI, ClassListAPI, DetailAPI, DeleteAPI, U
 urlpatterns = [
     path('plan/all/', PlanListAPI.as_view()),
     path('class/all/', ClassListAPI.as_view()),
-    path('class/all/<str:status>/', ClassCheckListAPI.as_view()),
+    path('class/<str:status>/', ClassCheckListAPI.as_view()),
     path('course/all/', CourseListAPI.as_view()),
     path('assign/all/', AssignListAPI.as_view()),
     path('date/<str:date>/', DateAPI.as_view()),
