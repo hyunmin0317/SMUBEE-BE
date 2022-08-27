@@ -20,6 +20,13 @@ class ClassListAPI(ListAPIView):
         queryset = Plan.objects.filter(Q(user=self.request.user)&(Q(category="course")|Q(category="assign"))).order_by('-date')
         return queryset
 
+class ClassCheckListAPI(ListAPIView):
+    serializer_class = PlanSerializer
+    def get_queryset(self):
+        status = self.kwargs['status']
+        checked = (status == "complete")
+        queryset = Plan.objects.filter(Q(user=self.request.user)&(Q(category="course")|Q(category="assign"))&Q(checked=checked)).order_by('-date')
+        return queryset
 
 class CourseListAPI(ListAPIView):
     serializer_class = PlanSerializer
