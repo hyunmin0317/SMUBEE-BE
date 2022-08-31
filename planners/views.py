@@ -106,3 +106,12 @@ class update(ListAPIView):
         queryset = Plan.objects.filter(user=self.request.user, category='course')
         queryset.union(Plan.objects.filter(user=self.request.user, category='assign'))
         return queryset
+
+
+class AssignCheckListAPI(ListAPIView):
+    serializer_class = PlanSerializer
+    def get_queryset(self):
+        status = self.kwargs['status']
+        checked = (status == "complete")
+        queryset = Plan.objects.filter(Q(user=self.request.user)&(Q(category="assign"))&Q(checked=checked)).order_by('-date')
+        return queryset
