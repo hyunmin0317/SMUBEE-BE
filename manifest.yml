@@ -1,6 +1,6 @@
 ---
 applications:
-  - name: hip
+  - name: smubee
     buildpack: python_buildpack
     memory: 512M
     instances: 1
