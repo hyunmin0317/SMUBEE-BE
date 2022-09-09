@@ -8,7 +8,7 @@ charset-normalizer==2.1.1
 colorama==0.4.5
 cryptography==37.0.4
 cssselect==1.1.0
-Django==4.1
+Django==3.2.13
 django-rest-knox==4.2.0
 djangorestframework==3.13.1
 et-xmlfile==1.1.0
@@ -33,3 +33,4 @@ urllib3==1.26.12
 w3lib==2.0.1
 websockets==10.3
 zipp==3.8.1
+waitress==2.1.1
