@@ -1,0 +1,7 @@
+---
+applications:
+  - name: hip
+    buildpack: python_buildpack
+    memory: 512M
+    instances: 1
+    command : waitress-serve --port=8080 config.wsgi:application
