@@ -49,9 +49,18 @@ class update(ListAPIView):
                 Subject.objects.create(user_id=user.id, name=sub["name"], prof=sub["prof"], code=sub["code"])
         return Subject.objects.filter(user=self.request.user)
 
+
 @api_view(['GET'])
 def check(request):
-    complete = Plan.objects.filter(Q(user=request.user) & (Q(category="course") | Q(category="assign")) & Q(checked=True)).count()
-    incomplete = Plan.objects.filter(Q(user=request.user) & (Q(category="course") | Q(category="assign")) & Q(checked=False)).count()
+    complete = Plan.objects.filter(user=request.user, category="assign", checked=True).count()
+    incomplete = Plan.objects.filter(user=request.user, category="assign", checked=False).count()
     res = {'complete': complete, 'incomplete': incomplete}
     return Response(res, status=status.HTTP_200_OK)
+
+
+class CheckAPI(ListAPIView):
+    serializer_class = PlanSerializer
+
+    def get_queryset(self):
+        check = self.kwargs['checked']
+        return Plan.objects.filter(user=self.request.user, category="assign", checked=check)
