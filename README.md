@@ -1,6 +1,6 @@
 # SMUBEE Backend
 
-### 졸업 프로젝트 (2022.01.02 ~ )
+### 졸업 프로젝트 (2022.01.02 ~ 2022.09.27)
 
 ---
 ## :star: [SMUBEE 다운로드](https://play.google.com/store/apps/details?id=com.smu.sumubee)
